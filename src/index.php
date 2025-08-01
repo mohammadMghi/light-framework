@@ -2,6 +2,7 @@
 
 use App\Controllers\NotFoundController;
 use App\DI\Container;
+use App\Http\Request;
 use App\Log\FileLogger;
 use App\Log\Interface\LoggerInterface;
 use App\Routes\Api; 
@@ -11,8 +12,10 @@ require __DIR__ . '/MiddlewaresConfig.php';
 
 $route_found = false;
 
-$uri = parse_url($_SERVER['REQUEST_URI'] , PHP_URL_PATH);
-$method = $_SERVER['REQUEST_METHOD'];
+$request = Request::capture();
+
+$uri = $request->uri();
+$method = $request->method();
 
 $uri = rtrim($uri , '/');
 
