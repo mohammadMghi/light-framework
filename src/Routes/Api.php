@@ -11,8 +11,8 @@ class Api
     {
         $routes = new Routes; 
 
-        $routes->GET('/' ,[new NotFoundController() , 'index']);
-        $routes->GET('/home/hello', [new WellcomeController() , 'index']);
+        $routes->GET('/' ,[NotFoundController::class , 'index']);
+        $routes->GET('/home/hello', [WellcomeController::class , 'index']);
 
         return $routes;
     }

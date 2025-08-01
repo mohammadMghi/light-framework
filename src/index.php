@@ -4,11 +4,10 @@ use App\Controllers\NotFoundController;
 use App\DI\Container;
 use App\Log\FileLogger;
 use App\Log\Interface\LoggerInterface;
-use App\Routes\Api;
-use App\Routes\Routes;
+use App\Routes\Api; 
 
 require __DIR__ . '/../vendor/autoload.php';
-
+require __DIR__ . '/MiddlewaresConfig.php';
 
 $route_found = false;
 
@@ -28,13 +27,22 @@ $routes = $routes->getRoutes();
   
 foreach ($routes as $route) {  
     $path = rtrim($route['path'] , '/');
- 
+  
+    middlewareCaller((array)$general_middlewares);
     if ($path === $uri && $route['method'] === $method) {
-        call_user_func([$route['action'][0] , $route['action'][1]]);
+        call_user_func([new $route['action'][0] , $route['action'][1]]);
         $route_found = true;
         break;
     }
 }   
+
+function middlewareCaller($general_middlewares)
+{  
+    foreach ($general_middlewares as $middleware)
+    {
+       call_user_func([new $middleware[0] , $middleware[1]]);
+    }
+}
 
 $notFoundController = new NotFoundController;
  

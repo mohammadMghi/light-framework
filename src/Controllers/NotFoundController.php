@@ -10,7 +10,7 @@ class NotFoundController
 {
     function index() {
         $container = Container::getInstance();
-        $logger = $container->make(LoggerInterface::class);
+        $logger = $container->make(FileLogger::class);
         echo "Page not found!Ops";
     }
 }
