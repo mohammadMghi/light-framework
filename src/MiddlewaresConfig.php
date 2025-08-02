@@ -4,9 +4,9 @@ use App\Middlewares\AdminMiddleware;
 use App\Middlewares\AuthMiddleware;
 
 $general_middlewares = [
-    [AuthMiddleware::class , 'handle']
+    [AuthMiddleware::class]
 ];
 
 $request_middlewares = [
-    [AdminMiddleware::class , 'handle']
+    [AdminMiddleware::class]
 ];

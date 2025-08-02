@@ -54,6 +54,12 @@ class Container {
 
         $constructor = $reflector->getConstructor();
 
+        // $methods = $reflector->getMethods();
+
+        // foreach($methods as $method) {
+        //     $method->getParameters();
+        // }   
+
         if (! $constructor) {
             return new $class;
         }
