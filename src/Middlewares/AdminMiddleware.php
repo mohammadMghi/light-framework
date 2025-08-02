@@ -2,12 +2,12 @@
 
 namespace App\Middlewares;
 
-class AuthMiddleware
+class AdminMiddleware
 {
     public function handle()
     {
         echo "</br>";
-        echo "Auth middleware";
+        echo "Admin middleware";
         echo "</br>";
-    }   
+    }
 }

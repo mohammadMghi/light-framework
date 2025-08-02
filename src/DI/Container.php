@@ -17,15 +17,35 @@ class Container {
         return self::$instance;
     }
     
-    public function bind(string $abstract, string $concrete) {
+    public function bind(string $abstract, $concrete) {
         $this->bindings[$abstract] = $concrete;
     }
 
-    public function make(string $class) {
+     public function make(string $class) {
+        if (isset($this->bindings[$class])) {
+            $concrete = $this->bindings[$class];
+
+            if (is_callable($concrete)) {
+                return $concrete();   
+            }
+
+            $class = $concrete;
+        }
+
         return $this->resolve($class);
     }
 
     protected function resolve(string $class) {
+        if (isset($this->bindings[$class])) {
+            $concrete = $this->bindings[$class];
+
+            if (is_callable($concrete)) {
+                return $concrete($this);
+            }
+
+            $class = $concrete;
+        }
+
         $reflector = new ReflectionClass($class);
 
         if (! $reflector->isInstantiable()) {
@@ -49,8 +69,17 @@ class Container {
             }
 
             $depClass = $type->getName();
- 
-            $depClass = $this->bindings[$depClass] ?? $depClass;
+
+            if (isset($this->bindings[$depClass])) {
+                $concrete = $this->bindings[$depClass];
+
+                if (is_callable($concrete)) {
+                    $dependencies[] = $concrete($this);
+                    continue;
+                }
+
+                $depClass = $concrete;
+            }
 
             $dependencies[] = $this->resolve($depClass);
         }
