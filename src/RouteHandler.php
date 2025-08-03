@@ -9,6 +9,8 @@ class RouteHandler
 {
     public static function handle(Container $containerPorvider,$uri,$routes,$general_middlewares,$method)
     {
+        $route_found = false;
+
         foreach ($routes as $route) {  
             $path = rtrim($route['path'] , '/');
             MiddlewareCaller::call((array)$general_middlewares,$containerPorvider);
@@ -24,9 +26,7 @@ class RouteHandler
                 break;
             }
         }   
-        
-
-        $notFoundController = $containerPorvider->make(NotFoundController::class);
+         
         
         if(!$route_found) {
             call_user_func([$containerPorvider->make(NotFoundController::class), 'index']);

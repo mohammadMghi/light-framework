@@ -14,8 +14,6 @@ use App\Routes\Api;
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/MiddlewaresConfig.php';
 
-$route_found = false;
-
 $request = Request::capture();
 
 $uri = $request->uri();
